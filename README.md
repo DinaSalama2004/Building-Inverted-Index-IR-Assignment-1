@@ -1,10 +1,16 @@
-Inverted Index-Based Search Engine
+# Inverted Index-Based Search Engine
 
-Overview
+
+To Clone:
+   ```
+   git clone https://github.com/DinaSalama2004/Building-Inverted-Index-IR-Assignment-1.git
+  ```
+
+## Overview
 
 This project builds an Inverted Index to efficiently search for text files containing specific keywords. The system processes a set of text files, indexes their contents, and handles search queries by returning files that contain all the given keywords.
 
-Features
+### Features
 
 - ✅ **Indexing** – Parses multiple text files and builds an inverted index.
 - ✅ **Efficient Searching** – Returns files that contain all queried keywords.
@@ -14,7 +20,7 @@ Features
 
 
 
-Requirements
+### Requirements
 
 Java Development Kit (JDK)
 
@@ -28,10 +34,10 @@ Search for Keywords: Accepts a query with multiple keywords and finds files that
 
 Efficient Intersection: Uses optimized methods to retrieve results quickly.
 
-Tasks to Complete
+### Tasks to Complete
 
--🔹 Implement intersect method in index5.java
--🔹 Complete buildIndex method in index5.java
--🔹 Implement main function in Test.java
--🔹 Fix posting list formatting
--🔹 Add comments to all methods
+🔹 Implement intersect method in index5.java <br>
+🔹 Complete buildIndex method in index5.java<br>
+🔹 Implement main function in Test.java<br>
+🔹 Fix posting list formatting<br>
+🔹 Add comments to all methods<br>
