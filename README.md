@@ -22,17 +22,17 @@ This project builds an Inverted Index to efficiently search for text files conta
 
 ### Requirements
 
-Java Development Kit (JDK)
+- Java Development Kit (JDK)
 
-Basic knowledge of data structures (HashMaps, Lists)
+- Basic knowledge of data structures (HashMaps, Lists)
 
-How It Works
+#### How It Works
 
-Build the Index: Reads multiple text files and constructs an inverted index.
+- Build the Index: Reads multiple text files and constructs an inverted index.
 
-Search for Keywords: Accepts a query with multiple keywords and finds files that contain all of them.
+- Search for Keywords: Accepts a query with multiple keywords and finds files that contain all of them.
 
-Efficient Intersection: Uses optimized methods to retrieve results quickly.
+- Efficient Intersection: Uses optimized methods to retrieve results quickly.
 
 ### Tasks to Complete
 
