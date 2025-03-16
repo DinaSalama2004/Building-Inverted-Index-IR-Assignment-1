@@ -6,11 +6,12 @@ This project builds an Inverted Index to efficiently search for text files conta
 
 Features
 
-✅ Index Construction – Parses text files and builds an inverted index.
-✅ Efficient Searching – Returns files that contain all queried keywords.
-✅ Optimized Intersect Method – Implements an efficient posting list intersection.
-✅ Formatted Output – Cleans up posting list output for readability.
-✅ Well-Documented Code – Includes method comments for clarity.
+- ✅ **Indexing** – Parses multiple text files and builds an inverted index.
+- ✅ **Efficient Searching** – Returns files that contain all queried keywords.
+- ✅ **Optimized Intersect Method** – Implements an efficient posting list intersection.
+- ✅ **Formatted Output** – Cleans up posting list output for readability.
+- ✅ **Well-Documented Code** – Includes method comments for clarity.
+
 
 
 Requirements
@@ -29,8 +30,8 @@ Efficient Intersection: Uses optimized methods to retrieve results quickly.
 
 Tasks to Complete
 
-🔹 Implement intersect method in index5.java
-🔹 Complete buildIndex method in index5.java
-🔹 Implement main function in Test.java
-🔹 Fix posting list formatting
-🔹 Add comments to all methods
+-🔹 Implement intersect method in index5.java
+-🔹 Complete buildIndex method in index5.java
+-🔹 Implement main function in Test.java
+-🔹 Fix posting list formatting
+-🔹 Add comments to all methods
