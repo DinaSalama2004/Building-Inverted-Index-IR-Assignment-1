@@ -47,8 +47,14 @@ public class Index5 {
         System.out.print("[");
         while (p != null) {
             /// -4- **** complete here ****
-            // fix get rid of the last comma
-            System.out.print("" + p.docId + "," );
+            // first, check if the current id is the last one
+            // if yes print the id only without the last comma
+            if(p.next == null) {
+                System.out.print("" + p.docId);
+            }
+            // else print the id following by the comma to separate each id from the next id
+            else
+                System.out.print("" + p.docId + "," );
             p = p.next;
         }
         System.out.println("]");
