@@ -86,7 +86,17 @@ public class Index5 {
                 while ((ln = file.readLine()) != null) { // while there is lines in the file -reading the document-
                     /// -2- **** complete here ****
                     /// **** hint   flen +=  ________________(ln, fid);
-                    flen += indexOneLine(ln, fid);
+                    String[] tokens = ln.split("\\W+"); // to split the line and keep words not nonwords -remove spaces, punctuation-
+                    for (String token : tokens) {
+                        token = token.toLowerCase(); // linguistic modules to ignore uppercase letters -modified tokens-
+                        if (!index.containsKey(token)) { // if this term not in the index
+                            index.put(token, new DictEntry()); // add new entry to the inverted index
+                        }
+                        else {
+                            System.out.println("Found: " + token + "\n");
+                            index.get(token).addPosting(fid); // add the document id to posting list
+                        }
+                    }
                 }
                 sources.get(fid).length = flen;
             } catch (IOException e) {
@@ -99,51 +109,45 @@ public class Index5 {
 
     //----------------------------------------------------------------------------  
     public int indexOneLine(String ln, int fid) {
-    int flen = 0; // Initialize document word count.
+        int flen = 0;
 
-    String[] words = ln.split("\\W+"); // Split the line into words using non-word characters as delimiters.
-    flen += words.length; // Count total words in the line.
-
-    for (String word : words) { // Iterate over each word in the line.
-        word = word.toLowerCase(); // Convert word to lowercase for uniform indexing.
-
-        if (stopWord(word)) { // Check if the word is a stopword.
-            continue; // Skip stopwords.
-        }
-
-        word = stemWord(word); // Apply stemming to the word.
-
-        // If the word is not already in the index, add it.
-        if (!index.containsKey(word)) {
-            index.put(word, new DictEntry()); // Create a new dictionary entry for the word.
-        }
-
-        // Check if the word is already associated with this document ID.
-        if (!index.get(word).postingListContains(fid)) {
-            index.get(word).doc_freq += 1; // Increment document frequency (number of documents containing this term).
-            
-            if (index.get(word).pList == null) { // If the posting list is empty, create a new posting.
-                index.get(word).pList = new Posting(fid);
-                index.get(word).last = index.get(word).pList;
-            } else { // Otherwise, append to the existing posting list.
-                index.get(word).last.next = new Posting(fid);
-                index.get(word).last = index.get(word).last.next;
+        String[] words = ln.split("\\W+");
+      //   String[] words = ln.replaceAll("(?:[^a-zA-Z0-9 -]|(?<=\\w)-(?!\\S))", " ").toLowerCase().split("\\s+");
+        flen += words.length;
+        for (String word : words) {
+            word = word.toLowerCase();
+            if (stopWord(word)) {
+                continue;
             }
-        } else { // If the document already contains this term, increase its frequency.
-            index.get(word).last.dtf += 1;
-        }
+            word = stemWord(word);
+            // check to see if the word is not in the dictionary
+            // if not add it
+            if (!index.containsKey(word)) {
+                index.put(word, new DictEntry());
+            }
+            // add document id to the posting list
+            if (!index.get(word).postingListContains(fid)) {
+                index.get(word).doc_freq += 1; //set doc freq to the number of doc that contain the term 
+                if (index.get(word).pList == null) {
+                    index.get(word).pList = new Posting(fid);
+                    index.get(word).last = index.get(word).pList;
+                } else {
+                    index.get(word).last.next = new Posting(fid);
+                    index.get(word).last = index.get(word).last.next;
+                }
+            } else {
+                index.get(word).last.dtf += 1;
+            }
+            //set the term_fteq in the collection
+            index.get(word).term_freq += 1;
+            if (word.equalsIgnoreCase("lattice")) {
 
-        index.get(word).term_freq += 1; // Increase the term frequency across all documents.
+                System.out.println("  <<" + index.get(word).getPosting(1) + ">> " + ln);
+            }
 
-        // Debugging: Print occurrences of the word "lattice"
-        if (word.equalsIgnoreCase("lattice")) {
-            System.out.println("  <<" + index.get(word).getPosting(1) + ">> " + ln);
         }
+        return flen;
     }
-    
-    return flen; // Return the number of words processed in the line.
-}
-
 
 //----------------------------------------------------------------------------  
     boolean stopWord(String word) {
@@ -207,34 +211,36 @@ public class Index5 {
         return answer;
     }
 
-    public String find_24_01(String phrase) { // Search for documents containing all words in the phrase.
-    String result = ""; // Initialize result string.
-    String[] words = phrase.split("\\W+"); // Split the phrase into words using non-word characters.
-    int len = words.length; // Get the number of words in the phrase.
-
-    // Check if the first word exists in the index; if not, return "No results found."
-    if (!index.containsKey(words[0].toLowerCase()) || index.get(words[0].toLowerCase()).pList == null) {
-        return "No results found.";
+    public String find_24_01(String phrase) { // any mumber of terms non-optimized search 
+        String result = "";
+        String[] words = phrase.split("\\W+");
+        int len = words.length;
+        if (len == 0){
+            return "No parameters provided";
+        }
+        //fix this if word is not in the hash table will crash...
+        if (!index.containsKey(words[0].toLowerCase())){
+            return "NO results for " + words[0];
+        }
+        Posting posting = index.get(words[0].toLowerCase()).pList;
+        int i = 1;
+        while (i < len) {
+            if (!index.containsKey(words[i].toLowerCase())){
+                return "NO results for " + words[i];
+            }
+            posting = intersect(posting, index.get(words[i].toLowerCase()).pList);
+            if (posting == null) {
+                return "No documents match the full phrase.";
+            }
+            i++;
+        }
+        while (posting != null) {
+            //System.out.println("\t" + sources.get(num));
+            result += "\t" + posting.docId + " - " + sources.get(posting.docId).title + " - " + sources.get(posting.docId).length + "\n";
+            posting = posting.next;
+        }
+        return result.isEmpty()?"No matching found." : result;
     }
-
-    Posting posting = index.get(words[0].toLowerCase()).pList; // Get posting list for the first word.
-    int i = 1;
-
-    // Iterate through the rest of the words and perform an intersection of posting lists.
-    while (i < len) {
-        posting = intersect(posting, index.get(words[i].toLowerCase()).pList);
-        i++;
-    }
-
-    // Traverse the final posting list and build the result string.
-    while (posting != null) {
-        result += "\t" + posting.docId + " - " + sources.get(posting.docId).title + " - " + sources.get(posting.docId).length + "\n";
-        posting = posting.next;
-    }
-
-    return result;
-}
-
     
     
     //---------------------------------
@@ -261,7 +267,7 @@ public class Index5 {
 
     public void store(String storageName) {
         try {
-            String pathToStorage = "/home/ehab/tmp11/rl/"+storageName;
+            String pathToStorage = "C:\\Users\\hp\\Desktop\\" + storageName + ".txt";
             Writer wr = new FileWriter(pathToStorage);
             for (Map.Entry<Integer, SourceRecord> entry : sources.entrySet()) {
                 System.out.println("Key = " + entry.getKey() + ", Value = " + entry.getValue().URL + ", Value = " + entry.getValue().title + ", Value = " + entry.getValue().text);

@@ -35,18 +35,6 @@ public class Test {
         index.store("index");
         index.printDictionary();
 
-
-        Posting p1 = new Posting(2);
-        Posting p2 = new Posting(5);
-        Posting p3 = new Posting(8);
-        Posting p4 = new Posting(11);
-
-        p1.next = p2;
-        p2.next = p3;
-        p3.next = p4;
-
-        System.out.print("Posting List Output: ");
-        index.printPostingList(p1);
 //        String test3 = "data  should plain greatest comif"; // data  should plain greatest comif
 //        System.out.println("Boo0lean Model result = \n" + index.find_24_01(test3));
 //
