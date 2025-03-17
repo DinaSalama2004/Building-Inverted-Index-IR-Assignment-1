@@ -248,11 +248,11 @@ public class Index5 {
         boolean sorted = false;
         String sTmp;
         if (words == null) {
-            return new String[0]; // Return an empty array instead of causing a crash
+            return new String[0];
         }
 
         if (words.length == 0) {
-            return words; // If the array is empty, return it as is
+            return words;
         }
         //-------------------------------------------------------
         while (!sorted) {
