@@ -247,6 +247,13 @@ public class Index5 {
     String[] sort(String[] words) {  //bubble sort
         boolean sorted = false;
         String sTmp;
+        if (words == null) {
+            return new String[0]; // Return an empty array instead of causing a crash
+        }
+
+        if (words.length == 0) {
+            return words; // If the array is empty, return it as is
+        }
         //-------------------------------------------------------
         while (!sorted) {
             sorted = true;
