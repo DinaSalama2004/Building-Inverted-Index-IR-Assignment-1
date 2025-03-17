@@ -19,7 +19,7 @@ public class Test {
         Index5 index = new Index5();
         //|**  change it to your collection directory 
         //|**  in windows "C:\\tmp11\\rl\\collection\\"       
-        String files = "C:\\test\\";
+        String files = "C:\\Users\\hp\\Desktop\\New folder (2) - Copy\\";
         File file = new File(files);
         //|** String[] 	list()
         //|**  Returns an array of strings naming the files and directories in the directory denoted by this abstract pathname.
