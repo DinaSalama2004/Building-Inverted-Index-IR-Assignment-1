@@ -33,6 +33,7 @@ public class Test {
             return;
         }
 
+
         fileList = index.sort(fileList);
         index.N = fileList.length;
 
