@@ -19,11 +19,20 @@ public class Test {
         Index5 index = new Index5();
         //|**  change it to your collection directory 
         //|**  in windows "C:\\tmp11\\rl\\collection\\"       
-        String files = "C:\\Users\\hp\\Desktop\\New folder (2) - Copy\\";
+        String files = "C:\\Users\\hp\\Desktop\\New folder";
         File file = new File(files);
+        if (!file.exists() || !file.isDirectory()) {
+            System.out.println("Error: it is not exist or is not a directory.");
+            return;
+        }
         //|** String[] 	list()
         //|**  Returns an array of strings naming the files and directories in the directory denoted by this abstract pathname.
         String[] fileList = file.list();
+        if (fileList == null || fileList.length == 0) {
+            System.out.println("Error: The directory is empty.");
+            return;
+        }
+
         fileList = index.sort(fileList);
         index.N = fileList.length;
 
