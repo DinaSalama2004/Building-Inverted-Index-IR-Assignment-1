@@ -4,10 +4,7 @@
  */
 package invertedIndex;
 
-import java.io.BufferedReader;
-import java.io.File;
-import java.io.IOException;
-import java.io.InputStreamReader;
+import java.io.*;
 
 /**
  *
@@ -15,11 +12,63 @@ import java.io.InputStreamReader;
  */
 public class Test {
 
+
+    public static void test_intersect(int[] arr1, int[] arr2) {
+        System.out.println("\nTest intersect : " );
+
+        // Convert arrays to linked lists
+
+        if (arr1.length == 0 ||arr2.length == 0)
+        {
+            System.out.println("Error: The array is empty.");
+            return;
+        }
+
+
+        Posting pL1= new Posting(arr1[0]);
+        Posting pL2= new Posting(arr2[0]);
+
+        Posting current1 = pL1;
+        for (int i = 1; i < arr1.length; i++) {
+            current1.next = new Posting(arr1[i]);
+            current1 = current1.next;
+        }
+        Posting current2 = pL2;
+        for (int i = 1; i < arr2.length; i++) {
+            current2.next = new Posting(arr2[i]);
+            current2 = current2.next;
+        }
+
+        // Perform intersection
+//        return      printPostingList(intersect(pL1, pL2)) ;
+
+
+    }
+    public static boolean Search(String filePath, String phrase) {
+        boolean found = false;
+        try (BufferedReader fileReader = new BufferedReader(new FileReader(filePath))) {
+
+            String line;
+            int linenum = 1;
+            while ((line = fileReader.readLine()) != null){
+                if (line.toLowerCase().contains(phrase.toLowerCase())){
+                    System.out.println("found in " + filePath);
+                    found = true;
+                }
+                linenum++;
+            }
+        } catch (IOException e) {
+            System.out.println("Error reading file " + filePath + ": " + e.getMessage());
+        }
+        return found;
+    }
+
+
     public static void main(String args[]) throws IOException {
         Index5 index = new Index5();
-        //|**  change it to your collection directory 
-        //|**  in windows "C:\\tmp11\\rl\\collection\\"       
-        String files = "C:\\Users\\hp\\Desktop\\New folder";
+        //|**  change it to your collection directory
+        //|**  in windows "C:\\tmp11\\rl\\collection\\"
+        String files = "C:\\Users\\hp\\Desktop\\New folder (2) - Copy\\";
         File file = new File(files);
         if (!file.exists() || !file.isDirectory()) {
             System.out.println("Error: it is not exist or is not a directory.");
@@ -54,8 +103,17 @@ public class Test {
             System.out.println("Print search phrase: ");
             BufferedReader in = new BufferedReader(new InputStreamReader(System.in));
             phrase = in.readLine();
+            if (!phrase.isEmpty()) {
+                boolean found = false;
+                for (String path : fileList){
+                    if (Search(path, phrase)) found = true;
+                }
+                if (!found){
+                    System.out.println("not found!");
+                }
+            }
 /// -3- **** complete here ****
         } while (!phrase.isEmpty());
 //
-    }
+}
 }
