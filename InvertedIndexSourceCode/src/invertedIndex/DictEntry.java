@@ -50,16 +50,46 @@ public class DictEntry {
     }
 //------------------------------------------------
 
-    void addPosting(int i) {
-         pList = new Posting(i);
-        if (pList == null) {
-            pList = new Posting(i);
-            last = pList;
-        } else {
-            last.next = new Posting(i);
-            last = last.next;
+//    void addPosting(int i) {
+//
+////        if (pList == null) { // First posting in the list
+////            pList = newPosting;
+////            last = newPosting;
+////        } else {
+////            last.next = newPosting; // Append to the last node
+////            last = newPosting; // Update last to the new posting
+////        }
+//
+//
+//
+//        newpostlist = new Posting(i);
+//        if (pList == null) {
+//            pList = new Posting(i);
+//            last = pList;
+//        } else {
+//
+//            if (last != null) { // Extra safety check
+//                last.next = pList;// Add new posting at the end
+//            }
+//
+////            last = last.next;
+//            last = pList;
+//        }
+//    }
+void addPosting(int i) {
+    Posting newPosting = new Posting(i);
+
+    if (pList == null) { // If the list is empty
+        pList = newPosting;
+        last = newPosting; // Ensure last points to the first node
+    } else {
+        if (last != null) { // Extra safety check
+            last.next = newPosting; // Add new posting at the end
         }
+        last = newPosting; // Update last to point to the new node
     }
+}
+
 // implement insert (int docId) method
 
     DictEntry() {

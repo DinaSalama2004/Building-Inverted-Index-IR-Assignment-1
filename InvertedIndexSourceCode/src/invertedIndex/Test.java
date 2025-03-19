@@ -13,37 +13,7 @@ import java.io.*;
 public class Test {
 
 
-    public static void test_intersect(int[] arr1, int[] arr2) {
-        System.out.println("\nTest intersect : " );
 
-        // Convert arrays to linked lists
-
-        if (arr1.length == 0 ||arr2.length == 0)
-        {
-            System.out.println("Error: The array is empty.");
-            return;
-        }
-
-
-        Posting pL1= new Posting(arr1[0]);
-        Posting pL2= new Posting(arr2[0]);
-
-        Posting current1 = pL1;
-        for (int i = 1; i < arr1.length; i++) {
-            current1.next = new Posting(arr1[i]);
-            current1 = current1.next;
-        }
-        Posting current2 = pL2;
-        for (int i = 1; i < arr2.length; i++) {
-            current2.next = new Posting(arr2[i]);
-            current2 = current2.next;
-        }
-
-        // Perform intersection
-//        return      printPostingList(intersect(pL1, pL2)) ;
-
-
-    }
     public static boolean Search(String filePath, String phrase) {
         boolean found = false;
         try (BufferedReader fileReader = new BufferedReader(new FileReader(filePath))) {
@@ -64,42 +34,13 @@ public class Test {
     }
 
 
-    public static void test_intersect(int[] arr1, int[] arr2) {
-        System.out.println("\nTest intersect : " );
 
-        // Convert arrays to linked lists
-
-        if (arr1.length == 0 ||arr2.length == 0)
-        {
-            System.out.println("Error: The array is empty.");
-            return;
-        }
-
-
-        Posting pL1= new Posting(arr1[0]);
-        Posting pL2= new Posting(arr2[0]);
-
-        Posting current1 = pL1;
-        for (int i = 1; i < arr1.length; i++) {
-            current1.next = new Posting(arr1[i]);
-            current1 = current1.next;
-        }
-        Posting current2 = pL2;
-        for (int i = 1; i < arr2.length; i++) {
-            current2.next = new Posting(arr2[i]);
-            current2 = current2.next;
-        }
-
-        // Perform intersection
-        return printPostingList(intersect(pL1, pL2)) ;
-    }
-    
 
     public static void main(String args[]) throws IOException {
         Index5 index = new Index5();
         //|**  change it to your collection directory
         //|**  in windows "C:\\tmp11\\rl\\collection\\"
-        String files = "C:\\Users\\hp\\Desktop\\New folder (2) - Copy\\";
+        String files = "D:\\FCAI\\third year\\semester 2\\IR\\HW1\\yarab\\Building-Inverted-Index-IR-Assignment-1\\test files\\";
         File file = new File(files);
         if (!file.exists() || !file.isDirectory()) {
             System.out.println("Error: it is not exist or is not a directory.");
@@ -117,13 +58,27 @@ public class Test {
         fileList = index.sort(fileList);
         index.N = fileList.length;
 
+        System.out.println("──────────────────────── Testing all in Main... ──────────────────────── \n");
+        System.out.println("⏩⏩ Files exist are : \n");
         for (int i = 0; i < fileList.length; i++) {
             fileList[i] = files + fileList[i];
+            System.out.println("         ➤"+fileList[i]);
         }
 
+        System.out.println("\n");
+
+
+        System.out.println("──────────── Testing buildIndex ... ────────────── \n");
+
         index.buildIndex(fileList);
+
+
         index.store("index");
         index.printDictionary();
+
+
+
+        System.out.println("──────────── Testing print Posting List  ... ────────────── \n");
 
         Posting p1 = new Posting(2);
         Posting p2 = new Posting(5);
@@ -136,27 +91,46 @@ public class Test {
 
         System.out.print("Posting List Output: ");
         index.printPostingList(p1);
-        
+
+        System.out.println("──────────── Testing   intersect  ... ────────────── \n");
+
+        Posting p11 = new Posting(2);
+        Posting p22 = new Posting(5);
+        Posting p33 = new Posting(8);
+
+
+        p11.next = p22;
+        p22.next = p33;
+
+
+        System.out.println(" p11 and p1 intersect in this list  [ " +index.intersect(p11,p1) +" ]");
+
+
+        System.out.println("──────────────────────────────────────────────── ");
+
 
         String test3 = "data  should plain greatest comif"; // data  should plain greatest comif
         System.out.println("Boo0lean Model result = \n" + index.find_24_01(test3));
 
+
+
+
+
+
+
+
+        System.out.println("──────────── search  ... ────────────── \n");
+
         String phrase = "";
 
         do {
-            System.out.println("Print search phrase: ");
+            System.out.println("Write the  phrase you search : ");
             BufferedReader in = new BufferedReader(new InputStreamReader(System.in));
             phrase = in.readLine();
             if (!phrase.isEmpty()) {
-                boolean found = false;
-                for (String path : fileList){
-                    if (Search(path, phrase)) found = true;
-                }
-                if (!found){
-                    System.out.println("not found!");
-                }
+                System.out.println("Search Results: \n" + index.find_24_01(phrase));
             }
-/// -3- **** complete here ****
+
         } while (!phrase.isEmpty());
 //
 }

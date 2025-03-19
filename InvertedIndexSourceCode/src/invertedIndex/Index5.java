@@ -93,7 +93,7 @@ public class Index5 {
                             index.put(token, new DictEntry()); // add new entry to the inverted index
                         }
                         else {
-                            System.out.println("Found: " + token + "\n");
+                            System.out.println("✅ " + token + " added successfully to index.\n");
                             index.get(token).addPosting(fid); // add the document id to posting list
                         }
                     }

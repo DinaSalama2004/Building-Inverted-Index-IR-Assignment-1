@@ -23,4 +23,9 @@ public class Posting {
     Posting(int id) {
         docId = id;
     }
+
+    @Override
+    public String toString() {
+        return docId + (next != null ? " → " + next : " → NULL");
+    }
 }
