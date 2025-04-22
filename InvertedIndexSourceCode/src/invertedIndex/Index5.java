@@ -74,37 +74,32 @@ public class Index5 {
     }
  
     //-----------------------------------------------
-    public void buildIndex(String[] files) {  // from disk not from the internet
-        int fid = 0; // id of the document
-        for (String fileName : files) { // for each document in the list of input files
-            try (BufferedReader file = new BufferedReader(new FileReader(fileName))) { // read the document
-                if (!sources.containsKey(fileName)) { // if the document is new, add it
-                    sources.put(fid, new SourceRecord(fid, fileName, fileName, "notext")); // add the document id and its info
+
+    public void buildIndex(String[] files) {
+        int fid = 0; // Document ID counter, unique for each file
+        for (String fileName : files) { // Iterate through all provided file paths
+            try (BufferedReader file = new BufferedReader(new FileReader(fileName))) {
+                // If this file has not been seen before, add it to the sources map
+                if (!sources.containsKey(fileName)) {
+                    // Create a SourceRecord with placeholder "notext" content and add it
+                    sources.put(fid, new SourceRecord(fid, fileName, fileName, "notext"));
                 }
-                String ln; // to hold document line
-                int flen = 0; // document length ???
-                while ((ln = file.readLine()) != null) { // while there is lines in the file -reading the document-
-                    /// -2- **** complete here ****
-                    /// **** hint   flen +=  ________________(ln, fid);
-                    String[] tokens = ln.split("\\W+"); // to split the line and keep words not nonwords -remove spaces, punctuation-
-                    for (String token : tokens) {
-                        token = token.toLowerCase(); // linguistic modules to ignore uppercase letters -modified tokens-
-                        if (!index.containsKey(token)) { // if this term not in the index
-                            index.put(token, new DictEntry()); // add new entry to the inverted index
-                        }
-                        else {
-                            System.out.println("✅ " + token + " added successfully to index.\n");
-                            index.get(token).addPosting(fid); // add the document id to posting list
-                        }
-                    }
+                String ln; // Variable to hold each line read from the file
+                int flen = 0; // Document length counter (total number of tokens)
+                // Read the file line by line
+                while ((ln = file.readLine()) != null) {
+                    // Call indexOneLine function to process each line and build the index
+                    // The function returns the number of tokens (words) processed in the line
+                    flen += indexOneLine(ln, fid); // accumulate token count for the document
                 }
+                // Store the final token count for the document in the source record
                 sources.get(fid).length = flen;
             } catch (IOException e) {
+                // If the file is not found or can't be opened, print an error message
                 System.out.println("File " + fileName + " not found. Skip it");
             }
-            fid++;
+            fid++; // Move on to the next file
         }
-        printDictionary();
     }
 
     //----------------------------------------------------------------------------  

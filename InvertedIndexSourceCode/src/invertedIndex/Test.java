@@ -40,7 +40,7 @@ public class Test {
         Index5 index = new Index5();
         //|**  change it to your collection directory
         //|**  in windows "C:\\tmp11\\rl\\collection\\"
-        String files = "D:\\FCAI\\third year\\semester 2\\IR\\HW1\\yarab\\Building-Inverted-Index-IR-Assignment-1\\test files\\";
+        String files = "C:\\Users\\Shahd\\IdeaProjects\\InvertedIndexGitHub\\Building-Inverted-Index-IR-Assignment-1\\test files\\";
         File file = new File(files);
         if (!file.exists() || !file.isDirectory()) {
             System.out.println("Error: it is not exist or is not a directory.");
